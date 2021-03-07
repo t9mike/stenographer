@@ -160,6 +160,7 @@ private class SXLogFile {
     func writeData(_ data: Data) {
         self.lockQueue.async(execute: {
             self.handle.write(data)
+            self.handle.synchronizeFile() // flush file to disk
             self.privateByteCounter = (self.privateByteCounter ?? 0) + UInt64(data.count)
             self.privateModificationTracker = CFAbsoluteTimeGetCurrent()
         })
